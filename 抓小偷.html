@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	 <title>抓小偷</title>
+<style>
+ #board {
+	 	 	 background: url('游戏背景.jpg');
+ background-size: cover;
+ border: 1px solid black;
+ height: 350px;
+ width: 650px;
+ }
+ .character {
+	 	 	 background: url('客人.jpg');
+ background-size: cover;
+ background-color: lightblue;
+ width: 120px;
+ height: 120px;
+ margin: 10px;
+	 	 	 float: left;
+ display: none;
+ }
+ .thief {
+	 	 	 background: url('小偷.jpg');
+ background-size: cover;
+ }
+ .hidden {
+ display: none;
+ }
+ .visible {
+ display: block;
+ }
+	 </style>
+</head>
+<body>
+	 <input type = "button" value = "开始游戏！" onclick = "startGame();"/>
+<div id = "board">
+	 	 <div class = "character">1</div>
+	 	 <div class = "character">2</div>
+	 	 <div class = "character">3</div>
+	 	 <div class = "character">4</div>
+	 	 <div class = "character">5</div>
+	 	 <div class = "character">6</div>
+	 </div>
+<script>
+	 	 function startGame() {
+ gameLoop();
+ }
+ var loops = 0;
+ var peopleVisible = false;
+ var gameScore = 0;
+ function gameLoop() {
+ peopleVisible = !peopleVisible;
+ createCharacters();
+ loops++;
+ if(loops < 12) {
+ setTimeout(gameLoop, peopleVisible ? 1000 : 1500);
+ }
+ else {
+	 	 	 	 alert("你的得分：" + gameScore);
+ }
+ }
+ function createCharacters() {
+	 	 	 var kaiGuan = true;
+ var board = document.getElementById("board");
+ var classToSet = peopleVisible ? "character visible" : "character hidden";
+ for(var index = 0; index < 6; index++) {
+ board.children[index].className = classToSet;
+ board.children[index].innerHTML = "";
+ board.children[index].onclick = function() {
+	 	 	 	 	 if(kaiGuan) {
+ gameScore += -2;
+	 	 	 	 	 	 kaiGuan = !kaiGuan;
+ }
+ }
+ }
+	 	 	 var randomNumber = Math.floor(Math.random() * 6) + 1;
+ board.children[randomNumber-1].innerHTML = "";
+ board.children[randomNumber-1].onclick = function() {
+	 	 	 	 if(kaiGuan) {
+ gameScore++;
+	 	 	 	 	 kaiGuan = !kaiGuan;
+ }
+ }
+ board.children[randomNumber-1].className = classToSet + " thief";
+ }
+	 </script>
+</body>
+</html>
